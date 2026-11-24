@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>(function(){try{var t=localStorage.getItem('fridget-theme')==='dark'?'dark':'light';document.documentElement.dataset.fridgetTheme=t;document.documentElement.style.backgroundColor=t==='dark'?'#1c1917':'#fffaf3';}catch(e){document.documentElement.dataset.fridgetTheme='light';}})();</script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $(function() {
+            const savedTheme = localStorage.getItem("fridget-theme");
+            $("body")
+            .removeClass("light-mode dark-mode")
+            .addClass(savedTheme === "dark" ? "dark-mode" : "light-mode");
+        });
+    </script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://kit.fontawesome.com/262e7279b4.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<script>(function(){var dark=document.documentElement.dataset.fridgetTheme==='dark';document.body.classList.toggle('dark-mode',dark);document.body.classList.toggle('light-mode',!dark);})();</script>
+
+    <main>
+        <nav class="outsiders">
+            <div class="outside">
+                <button id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="sideMenu"><i id="menuIcon" class="fa-solid fa-bars"></i></button>
+            </div>
+        </nav>
+        <div class="menu-overlay" id="menuOverlay"></div>
+        <aside class="side-menu" id="sideMenu" aria-hidden="true">
+            <div class="side-menu-header">
+                <h2>Fridget</h2>
+                <p>Your kitchen, your way.</p>
+            </div>
+            <nav class="side-menu-links" aria-label="Main menu">
+                <a href="{{ url_for('index') }}">Home</a>
+                <a href="#">Discover</a>
+                <div class="category-wrapper">
+                    <a href="#" id="categoryToggle" aria-expanded="false" aria-controls="categoryMenu">Categories <i class="fa-solid fa-chevron-down"></i></a>
+                <div class="category-menu" id="categoryMenu">
+                    <a href="#">Breakfast</a>
+                    <a href="#">Lunch</a>
+                    <a href="#">Dinner</a>
+                    <a href="#">dessert</a>
+                </div>
+                </div>
+                <a href="#">Wishlist</a>
+            <div class="settings-wrapper">
+                <a href="#" id="settingsToggle" aria-expanded="false" aria-controls="settingsMenu">Settings</a>
+                <div class="settings-menu" id="settingsMenu">
+                    <h2 class="appearance">Appearance</h2>
+                    <button class="light-mode" id="lightMode">Light Mode</button>
+                    <button class="dark-mode" id="darkMode">Dark Mode</button>
+                </div>
+            </div>
+                <a href="{{ url_for('OurTeam.OurTeam') }}">About Us</a>
+            </nav>
+            <div class="side-menu-footer">
+                Made with the power of Friendship.
+            </div>
+        </aside>
+        <nav class="top">
+            <div class="logo">
+                <div class="hedvig-letters-serif-regular">Fridget</div>
+            </div>
+            <div class="links">
+                <a href="{{ url_for('index') }}">Home</a>
+                <a href="{{ url_for('recipes.recipes') }}">Recipes</a>
+                <a href="{{ url_for('OurTeam.OurTeam') }}">About Us</a>
+            </div>
+            <div class="actions">
+                <button id="searchToggle" aria-label="Open Search" aria-expanded="false" aria-controls="searchPanel"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+            <div class="search-panel" id="searchPanel">
+    <div class="search-input-row">
+        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+
+        <input
+            type="search"
+            id="recipeSearch"
+            placeholder="Search recipes..."
+            autocomplete="off"
+            aria-label="Search recipes"
+            aria-controls="searchResults"
+        >
+
+        <button
+            id="closeSearch"
+            type="button"
+            aria-label="Close search"
+        >
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+    </div>
+
+    <div
+        class="search-results"
+        id="searchResults"
+        aria-live="polite"
+    ></div>
+</div>
+        </nav>
+        <nav class="outsider">
+            <div class="outside">
+                <button id="accountToggle" type="button" aria-label="Account" aria-haspopup="dialog"> <i class="fa-regular fa-user"></i></button>
+            </div>
+        </nav>
+
+        <div class="auth-backdrop" id="authBackdrop" hidden></div>
+        <section class="auth-dialog" id="authDialog" role="dialog" aria-modal="true" aria-labelledby="authTitle" hidden>
+            <button class="auth-close" id="authClose" type="button" aria-label="Close account dialog"><i class="fa-solid fa-xmark"></i></button>
+            <div class="auth-brand">Fridget</div>
+            <h2 id="authTitle">Welcome back</h2>
+            <p class="auth-subtitle" id="authSubtitle">Sign in to your account.</p>
+            <div class="auth-tabs" id="authTabs"><button type="button" class="active" data-auth-view="login">Log in</button><button type="button" data-auth-view="register">Create account</button></div>
+            <form id="authForm" novalidate>
+                <label class="auth-field" id="nameField" hidden>Display name<input id="authName" name="name" type="text" maxlength="60" autocomplete="name"></label>
+                <label class="auth-field" id="usernameField" hidden>Username <span class="username-hint">(lowercase letters, numbers, ., _, -)</span><input id="authUsername" name="username" type="text" minlength="3" maxlength="30" pattern="[a-z0-9._-]{3,30}" autocomplete="username" autocapitalize="none" spellcheck="false"></label>
+                <label class="auth-field">Email or username<input id="authIdentity" name="identity" type="text" maxlength="120" autocomplete="username" required></label>
+                <label class="auth-field">Password<input id="authPassword" name="password" type="password" minlength="8" maxlength="128" autocomplete="current-password" required></label>
+                <label class="auth-field" id="confirmField" hidden>Confirm password<input id="authConfirm" name="confirm_password" type="password" minlength="8" maxlength="128" autocomplete="new-password"></label>
+                <p class="auth-message" id="authMessage" role="status" aria-live="polite"></p>
+                <button class="auth-submit" id="authSubmit" type="submit">Log in</button>
+            </form>
+            <button class="auth-forgot-link" id="forgotPasswordLink" type="button">Forgot password?</button>
+
+        <form id="emailVerifyForm" hidden novalidate>
+                <label class="auth-field">Email verification code<input id="emailVerifyCode" name="code" type="text" inputmode="numeric" pattern="[0-9]{6}" minlength="6" maxlength="6" autocomplete="one-time-code" required></label>
+                <p class="auth-message" id="emailVerifyMessage" role="status" aria-live="polite"></p>
+                <button class="auth-submit" type="submit">Verify email</button>
+            </form>
+            <form id="passwordResetForm" hidden novalidate>
+                <label class="auth-field">Reset code<input id="passwordResetCode" name="code" type="text" inputmode="numeric" pattern="[0-9]{6}" minlength="6" maxlength="6" autocomplete="one-time-code" required></label>
+                <label class="auth-field">New password<input id="passwordResetNew" name="password" type="password" minlength="8" maxlength="128" autocomplete="new-password" required></label>
+                <label class="auth-field">Confirm new password<input id="passwordResetConfirm" name="confirm_password" type="password" minlength="8" maxlength="128" autocomplete="new-password" required></label>
+                <p class="auth-message" id="passwordResetMessage" role="status" aria-live="polite"></p>
+                <button class="auth-submit" type="submit">Reset password</button>
+            </form>
+            <div class="auth-user" id="authUser" hidden><p id="authUserText"></p><button class="auth-submit" id="authLogout" type="button">Log out</button></div>
+        </section>
+    <div class="ai-button"><i class="fa-brands fa-openai fa-spin"></i></div>
+
+    <!-- Chat Box -->
+    <div class="chat-box">
+        <div class="chat-header">
+            Fridget
+            <span class="close-btn">✖</span>
+        </div>
+        <div class="chat-body">
+            <div class="message ai">Greeting,I'm Friget</div>
+        </div>
+        <div class="chat-input">
+            <input type="text" placeholder="Type a message..." id="userInput">
+            <button id="sendBtn">Send</button>
+        </div>
+    </div>
+    </main>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

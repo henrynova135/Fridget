@@ -1,0 +1,361 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #f7f3ec;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: #383430;
+  display: block;
+  min-height: 100vh;
+  padding: 120px 24px 40px;
+}
+
+.page-container {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* ---------------- TOP PROFILE CARD ---------------- */
+.profile-card {
+  width: 100%;
+  background-color: #fcf8f2;
+  border-radius: 20px;
+  position: relative;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+}
+
+.top-border {
+  height: 6px;
+  background-color: #d96924;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.card-body {
+  display: flex;
+  padding: 28px 32px;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+/* Avatar Styling */
+.avatar-wrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.avatar-img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #d96924;
+  display: block;
+}
+
+.camera-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: #d96924;
+  color: #ffffff;
+  border: 3px solid #fcf8f2;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Header & Text Details */
+.profile-details {
+  flex-grow: 1;
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.user-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.edit-profile-btn {
+  background-color: #d96924;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.edit-profile-btn:hover {
+  background-color: #be561b;
+}
+
+/* Save / Active Editing state for top button */
+.edit-profile-btn.saved-mode {
+  background-color: #2e7d32;
+}
+.edit-profile-btn.saved-mode:hover {
+  background-color: #1b5e20;
+}
+
+.user-meta {
+  color: #8c8378;
+  font-size: 14px;
+  margin-top: 4px;
+  margin-bottom: 14px;
+}
+
+.user-bio {
+  color: #4a453f;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* Bottom Arrow Button */
+.scroll-arrow-wrapper {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 16px;
+  margin-top: -8px;
+}
+
+.scroll-arrow-btn {
+  background-color: #ffffff;
+  border: 1px solid #e8dfd5;
+  color: #383430;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.scroll-arrow-btn:hover {
+  transform: translateY(2px);
+  background-color: #f7f3ec;
+}
+
+/* ---------------- EDIT DETAILS SECTION ---------------- */
+.edit-details-card {
+  background-color: #fcf8f2;
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+}
+
+.section-subtitle {
+  font-size: 14px;
+  color: #8c8378;
+  margin-bottom: 24px;
+}
+
+/* Form Controls */
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.form-group.full-width {
+  width: 100%;
+}
+
+label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #786f65;
+  text-transform: uppercase;
+}
+
+.form-control {
+  width: 100%;
+  background-color: #f0ebe1; /* Lighter disabled look */
+  border: 1.5px solid transparent;
+  border-radius: 16px;
+  padding: 14px 18px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  color: #7d7770;
+  outline: none;
+  cursor: not-allowed;
+  transition: all 0.2s ease;
+}
+
+/* Unlocked Editable State */
+.form-control.active-editable {
+  background-color: #fcf8f2;
+  border: 2px solid #d96924;
+  color: #2b2723;
+  cursor: text;
+}
+
+.textarea-control {
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* Save Actions Inside Form */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.save-changes-btn {
+  background-color: #2e7d32;
+  color: #ffffff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.save-changes-btn:hover {
+  background-color: #1b5e20;
+}
+
+/* Responsive Layout */
+@media (max-width: 640px) {
+  .card-body {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
+
+  .header-row {
+    justify-content: center;
+  }
+}
+
+/* Account content follows the same page grid as Home and Recipes. */
+.account-content-shell{width:min(1200px,100%);margin:0 auto}
+.account-page-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 22px}
+.account-page-heading h1{font:700 25px 'Playfair Display',serif;color:#d96924}
+.account-logout{border:0;background:transparent;color:#51483f;font:600 14px 'Plus Jakarta Sans',sans-serif;cursor:pointer;padding:10px 14px;border-radius:999px}
+.account-logout:hover{background:var(--accent-soft)}
+@media(max-width:700px){body{padding:92px 14px 28px}.card-body{padding:22px 18px;gap:16px}.account-page-heading{margin-bottom:16px}}
+
+
+/* Account header: compact links sit beside Log out, without a second glass navbar. */
+.account-heading-actions{display:flex;align-items:center;justify-content:flex-end;gap:18px;min-width:0}
+.account-quick-nav{position:relative;display:flex;align-items:center;gap:12px}
+.account-quick-links{display:flex;align-items:center;gap:8px}
+.account-quick-links a{display:inline-flex;align-items:center;padding:9px 11px;border-radius:999px;color:var(--text-color,#383430);text-decoration:none;font:500 14px 'Plus Jakarta Sans',sans-serif;white-space:nowrap}
+.account-quick-links a:hover{background:var(--accent-soft,rgba(217,105,36,.12))}
+.account-search{display:flex;align-items:center}
+.account-search #searchToggle{width:40px;height:40px;border:0;border-radius:50%;background:transparent;color:var(--text-color,#383430);font-size:19px;cursor:pointer}
+.account-search #searchToggle:hover{background:var(--accent-soft,rgba(217,105,36,.12))}
+.account-quick-nav .search-panel{top:calc(100% + 12px);left:auto;right:0;transform:translateY(-8px);z-index:1300}
+.account-quick-nav .search-panel.search-open{transform:translateY(0)}
+.account-quick-nav #recipeSearch{cursor:text!important;user-select:text!important;-webkit-user-select:text!important}
+.side-menu-links{gap:7px!important;margin-top:24px!important}
+.side-menu-links .category-wrapper{margin-bottom:0!important}
+.side-menu-links .category-menu{margin:2px 0 2px!important}
+.side-menu-links .settings-wrapper{margin-top:0!important}
+.form-control:disabled{cursor:default!important}
+.form-control.active-editable{cursor:text!important;user-select:text!important;-webkit-user-select:text!important}
+.save-changes-btn{background-color:#d96924!important}
+.save-changes-btn:hover{background-color:#be561b!important}
+.edit-profile-btn.saved-mode,.edit-profile-btn.saved-mode:hover{background-color:#d96924!important}
+body.dark-mode{background:#1c1917!important;color:#fafaf9!important}
+body.dark-mode .account-content-shell{color:#fafaf9!important}
+body.dark-mode .profile-card,body.dark-mode .edit-details-card{background:#292524!important;color:#fafaf9!important;border-color:rgba(255,255,255,.1)!important}
+body.dark-mode .user-name,body.dark-mode .section-title,body.dark-mode .account-page-heading h1{color:#fafaf9!important}
+body.dark-mode .account-page-heading button{color:#e7ded5!important}
+body.dark-mode .profile-form input,body.dark-mode .profile-form textarea{background:#352c28!important;color:#fafaf9!important;border-color:#66564d!important}
+body.dark-mode .profile-form input:disabled,body.dark-mode .profile-form textarea:disabled{opacity:1!important}
+body.dark-mode .section-subtitle,body.dark-mode .profile-notice,body.dark-mode .user-meta{color:#c9bdb3!important}
+body.dark-mode .user-bio{color:#e7ded5!important}
+body.dark-mode .account-quick-links a,body.dark-mode .account-search #searchToggle{color:#fafaf9!important}
+body.dark-mode .account-quick-nav .search-panel{background:#292524!important;color:#fafaf9!important;border-color:rgba(255,255,255,.12)!important}
+body.dark-mode .account-quick-nav .search-panel input,body.dark-mode .account-quick-nav .search-panel button{color:#fafaf9!important}
+@media(max-width:760px){
+ .account-heading-actions{gap:6px;flex-wrap:wrap}
+ .account-quick-nav{gap:2px}
+ .account-quick-links{gap:0}
+ .account-quick-links a{font-size:12px;padding:8px 7px}
+ .account-search #searchToggle{width:34px;height:34px}
+}
+@media(max-width:520px){
+ .account-page-heading{align-items:flex-start;flex-direction:column}
+ .account-heading-actions{width:100%;justify-content:space-between}
+}
+
+.side-menu-links .category-menu{display:none!important}
+.side-menu-links .category-wrapper.category-open .category-menu{display:block!important}
+
+
+/* Keep the save action unavailable until profile editing is enabled. */
+.form-actions[hidden]{display:none!important}
+.save-changes-btn:disabled,.save-changes-btn:disabled:hover{background:#b8b1aa!important;color:#f7f5f2!important;cursor:not-allowed!important;opacity:.72!important;box-shadow:none!important}
+.save-changes-btn:not(:disabled){background-color:#d96924!important;cursor:pointer!important}
+
+
+.username-input-wrap{display:flex;align-items:stretch;position:relative;width:100%;}
+.username-prefix{display:flex;align-items:center;justify-content:center;padding:0 0 0 18px;background:#f0ebe1;border-radius:16px 0 0 16px;color:#7d7770;font:inherit;}
+.username-input-wrap .form-control{border-radius:0 16px 16px 0;min-width:0;}
+.username-input-wrap .form-control:disabled{cursor:not-allowed;}
+.username-input-wrap .form-control.active-editable{cursor:text;}
+body.dark-mode .username-prefix{background:#352c28;color:#fafaf9;}

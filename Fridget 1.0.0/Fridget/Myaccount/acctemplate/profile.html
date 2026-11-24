@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>(function(){try{var t=localStorage.getItem('fridget-theme')==='dark'?'dark':'light';document.documentElement.dataset.fridgetTheme=t;document.documentElement.style.backgroundColor=t==='dark'?'#1c1917':'#fffaf3';}catch(e){document.documentElement.dataset.fridgetTheme='light';}})();</script>
+
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Account | Fridget</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('Myaccount.static', filename='style.css') }}">
+  <style>
+
+
+
+    body.dark-mode{background:#1c1917!important;color:#fafaf9!important}
+    body.dark-mode .profile-card,body.dark-mode .edit-details-card{background:#292524!important;color:#fafaf9!important;border-color:rgba(255,255,255,.1)}
+    body.dark-mode .user-name,body.dark-mode .section-title,body.dark-mode .account-page-heading h1{color:#fafaf9!important}
+    body.dark-mode .account-page-heading button{color:#e7ded5!important}
+    body.dark-mode .profile-form input,body.dark-mode .profile-form textarea{background:#352c28!important;color:#fafaf9!important;border-color:#66564d!important}
+    body.dark-mode .section-subtitle,body.dark-mode .profile-notice{color:#c9bdb3!important}
+  </style>
+  <link rel="stylesheet" href="{{ url_for('static', filename='navigation.css') }}">
+</head>
+<body>
+<script>(function(){var dark=document.documentElement.dataset.fridgetTheme==='dark';document.body.classList.toggle('dark-mode',dark);document.body.classList.toggle('light-mode',!dark);})();</script>
+
+  
+<nav class="outsiders site-menu-trigger">
+  <div class="outside"><button id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="sideMenu"><i id="menuIcon" class="fa-solid fa-bars"></i></button></div>
+</nav>
+<div class="menu-overlay" id="menuOverlay"></div>
+<aside class="side-menu" id="sideMenu" aria-hidden="true">
+  <div class="side-menu-header"><h2>Fridget</h2><p>Your kitchen, your way.</p></div>
+  <nav class="side-menu-links" aria-label="Main menu">
+    <a href="{{ url_for('index') }}">Home</a>
+    <a href="{{ url_for('recipes.recipes') }}">Discover</a>
+    <a href="{{ url_for('wishlist_page') }}">Wishlist</a>
+    <div class="category-wrapper"><a href="#" id="categoryToggle" aria-expanded="false" aria-controls="categoryMenu">Categories <i class="fa-solid fa-chevron-down"></i></a>
+      <div class="category-menu" id="categoryMenu">
+        <a href="{{ url_for('recipes.recipes') }}?category=breakfast">Breakfast</a>
+        <a href="{{ url_for('recipes.recipes') }}?category=lunch">Lunch</a>
+        <a href="{{ url_for('recipes.recipes') }}?category=dinner">Dinner</a>
+        <a href="{{ url_for('recipes.recipes') }}?category=dessert">Dessert</a>
+      </div>
+    </div>
+    <a href="{{ url_for('account_page') }}">My Account</a>
+    <div class="settings-wrapper"><a href="#" id="settingsToggle" aria-expanded="false" aria-controls="settingsMenu">Settings</a>
+      <div class="settings-menu" id="settingsMenu"><h2 class="appearance">Appearance</h2><button class="light-mode" id="lightMode" type="button">Light Mode</button><button class="dark-mode" id="darkMode" type="button">Dark Mode</button></div>
+    </div>
+    <a href="{{ url_for('OurTeam.OurTeam') }}">About Us</a>
+  </nav>
+  <div class="side-menu-footer">Made with the power of Friendship.</div>
+</aside>
+<nav class="outsider site-account-trigger"><div class="outside"><a id="accountToggle" href="{{ url_for('account_page') }}" aria-label="Account"><i class="fa-regular fa-user"></i></a></div></nav>
+
+<div class="account-content-shell">
+    <header class="account-page-heading"><h1>My Account</h1><div class="account-heading-actions"><div class="account-quick-nav" aria-label="Account page navigation">
+  <nav class="account-quick-links">
+    <a href="{{ url_for('index') }}">Home</a>
+    <a href="{{ url_for('recipes.recipes') }}">Recipes</a>
+    <a href="{{ url_for('OurTeam.OurTeam') }}">About Us</a>
+  </nav>
+  <div class="account-search">
+    <button id="searchToggle" type="button" aria-label="Open Search" aria-expanded="false" aria-controls="searchPanel"><i class="fa-solid fa-magnifying-glass"></i></button>
+  </div>
+  <div class="search-panel" id="searchPanel">
+    <div class="search-input-row"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><input type="search" id="recipeSearch" placeholder="Search recipes..." autocomplete="off" aria-label="Search recipes" aria-controls="searchResults"><button id="closeSearch" type="button" aria-label="Close search"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
+    <div class="search-results" id="searchResults" aria-live="polite"></div>
+  </div>
+</div>
+<button type="button" id="profileLogout" class="account-logout">Log out</button></div></header>
+    <div class="page-container">
+      <div class="profile-card" id="profileCard">
+        <div class="top-border"></div><div class="card-body">
+          <div class="avatar-wrapper">
+            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="Your profile" class="avatar-img" id="avatarImg">
+            <input type="file" id="fileInput" accept="image/png,image/jpeg,image/webp" hidden>
+            <button class="camera-btn" type="button" aria-label="Change profile picture" id="changeAvatarBtn"><i class="fa-solid fa-camera"></i></button>
+          </div>
+          <div class="profile-details"><div class="header-row"><div class="title-badge-group"><h1 class="user-name" id="displayUserName">Loading…</h1></div><button class="edit-profile-btn" id="editProfileBtn" type="button"><i class="fa-regular fa-pen-to-square"></i> <span id="btnText">Edit Profile</span></button></div>
+            <p class="user-meta"><span id="displayHandle">@…</span> &bull; Joined <span id="joinedAt">—</span></p><p class="user-bio" id="displayBio">Loading your profile…</p><p class="profile-notice" id="profileNotice" role="status" aria-live="polite"></p>
+          </div>
+        </div><div class="scroll-arrow-wrapper"><button class="scroll-arrow-btn" id="scrollArrowBtn" type="button" aria-label="Scroll to profile details"><i class="fa-solid fa-arrow-down"></i></button></div>
+      </div>
+      <div class="edit-details-card" id="editDetailsCard"><h2 class="section-title">Profile Details</h2><p class="section-subtitle">Update your public profile information.</p>
+        <form class="profile-form" id="profileForm">
+          <div class="form-group full-width"><label for="inputDisplayName">DISPLAY NAME</label><input type="text" id="inputDisplayName" class="form-control" maxlength="60" required disabled></div>
+          <div class="form-row"><div class="form-group"><label for="inputUsername">USERNAME / HANDLE</label><div class="username-input-wrap"><span class="username-prefix" aria-hidden="true">@</span><input type="text" id="inputUsername" class="form-control" maxlength="30" pattern="[a-z0-9._-]{3,30}" autocapitalize="none" spellcheck="false" readonly disabled></div></div><div class="form-group"><label for="inputEmail">EMAIL ADDRESS</label><input type="email" id="inputEmail" class="form-control" readonly disabled></div></div>
+          <div class="form-group full-width"><label for="inputBio">BIO</label><textarea id="inputBio" class="form-control textarea-control" rows="3" maxlength="280" disabled></textarea></div>
+          <div class="form-actions" id="formActionsContainer" hidden><button class="save-changes-btn" id="saveChangesBtn" type="submit" disabled><i class="fa-solid fa-check"></i> Save Changes</button><button type="button" id="cancelChangesBtn" style="margin-left:10px;padding:12px 20px;border:1px solid #ddd;border-radius:12px;background:transparent;cursor:pointer">Cancel</button></div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <script src="{{ url_for('Myaccount.static', filename='script.js') }}"></script>
+
+
+  <footer class="special-thanks" aria-label="Special thanks">
+    <span>Special thanks to</span>
+    <strong>Shun Lei</strong>
+  </footer>
+  <style>
+    .special-thanks{width:100%;display:flex;flex-direction:column;align-items:center;gap:4px;padding:22px 16px 18px;margin:30px auto 0;text-align:center;color:#8a817a;font:13px/1.5 'Plus Jakarta Sans',Arial,sans-serif}
+    .special-thanks strong{font-weight:600;color:#4b4541}
+  </style>
+</body></html>

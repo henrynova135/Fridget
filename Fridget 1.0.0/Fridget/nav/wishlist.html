@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>(function(){try{var t=localStorage.getItem('fridget-theme')==='dark'?'dark':'light';document.documentElement.dataset.fridgetTheme=t;document.documentElement.style.backgroundColor=t==='dark'?'#1c1917':'#fffaf3';}catch(e){document.documentElement.dataset.fridgetTheme='light';}})();</script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wishlist | Fridget</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script>$(function(){const t=localStorage.getItem('fridget-theme');document.body.classList.toggle('dark-mode',t==='dark');document.body.classList.toggle('light-mode',t!=='dark');});</script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('recipes.static', filename='recipes.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <style>
+    .wishlist-page{max-width:1200px;margin:145px auto 80px;padding:0 24px;min-height:55vh}
+    .wishlist-page .wishlist-heading{text-align:center;margin:0 auto 34px}
+    .wishlist-page .wishlist-heading h1{font-size:clamp(2rem,5vw,3.2rem);margin-bottom:10px;color:var(--heading-color)}
+    .wishlist-page .wishlist-heading p{color:var(--muted-color)}
+    .wishlist-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:clamp(12px,2vw,24px);width:100%;margin:24px 0}
+    .wishlist-grid .recipe-card{min-width:0}
+    .wishlist-remove{align-self:center;margin-top:9px;padding:9px 14px;border:1px solid var(--border-color);border-radius:8px;background:transparent;color:var(--text-color);cursor:pointer}
+    .wishlist-remove:hover{background:var(--accent-soft)}
+    .wishlist-empty{grid-column:1/-1;padding:35px 22px;text-align:center;border:1px dashed var(--border-color);border-radius:18px;color:var(--muted-color)}
+    .page-note{max-width:900px;margin:30px auto 24px;padding:18px 22px;text-align:center;color:var(--muted-color);font-size:14px;line-height:1.7}
+    .fridget-credits{max-width:1200px;margin:0 auto 22px;padding:0 24px;text-align:right;color:var(--muted-color);font-size:11px;opacity:.78}
+    @media(max-width:600px){.wishlist-page{margin-top:120px;padding:0 16px}.fridget-credits{text-align:center}}
+  </style>
+  <link rel="stylesheet" href="{{ url_for('static', filename='navigation.css') }}">
+</head>
+<body>
+  
+<nav class="outsiders site-menu-trigger">
+  <div class="outside"><button id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="sideMenu"><i id="menuIcon" class="fa-solid fa-bars"></i></button></div>
+</nav>
+<div class="menu-overlay" id="menuOverlay"></div>
+<aside class="side-menu" id="sideMenu" aria-hidden="true">
+  <div class="side-menu-header"><h2>Fridget</h2><p>Your kitchen, your way.</p></div>
+  <nav class="side-menu-links" aria-label="Main menu">
+    <a href="{{ url_for('index') }}">Home</a>
+    <a href="{{ url_for('recipes.recipes') }}">Discover</a>
+    <a href="{{ url_for('wishlist_page') }}">Wishlist</a>
+    <div class="category-wrapper"><a href="#" id="categoryToggle" aria-expanded="false" aria-controls="categoryMenu">Categories <i class="fa-solid fa-chevron-down"></i></a>
+      <div class="category-menu" id="categoryMenu">
+        <a href="{{ url_for('recipes.recipes') }}?category=breakfast">Breakfast</a>
+        <a href="{{ url_for('recipes.recipes') }}?category=lunch">Lunch</a>
+        <a href="{{ url_for('recipes.recipes') }}?category=dinner">Dinner</a>
+        <a href="{{ url_for('recipes.recipes') }}?category=dessert">Dessert</a>
+      </div>
+    </div>
+    <a href="{{ url_for('account_page') }}">My Account</a>
+    <div class="settings-wrapper"><a href="#" id="settingsToggle" aria-expanded="false" aria-controls="settingsMenu">Settings</a>
+      <div class="settings-menu" id="settingsMenu"><h2 class="appearance">Appearance</h2><button class="light-mode" id="lightMode" type="button">Light Mode</button><button class="dark-mode" id="darkMode" type="button">Dark Mode</button></div>
+    </div>
+    <a href="{{ url_for('OurTeam.OurTeam') }}">About Us</a>
+  </nav>
+  <div class="side-menu-footer">Made with the power of Friendship.</div>
+</aside>
+<nav class="top site-main-nav">
+  <div class="logo"><div class="hedvig-letters-serif-regular">Fridget</div></div>
+  <div class="links"><a href="{{ url_for('index') }}">Home</a><a href="{{ url_for('recipes.recipes') }}">Recipes</a><a href="{{ url_for('OurTeam.OurTeam') }}">About Us</a></div>
+  <div class="actions"><button id="searchToggle" type="button" aria-label="Open Search" aria-expanded="false" aria-controls="searchPanel"><i class="fa-solid fa-magnifying-glass"></i></button></div>
+  <div class="search-panel" id="searchPanel">
+    <div class="search-input-row"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><input type="search" id="recipeSearch" placeholder="Search recipes..." autocomplete="off" aria-label="Search recipes" aria-controls="searchResults"><button id="closeSearch" type="button" aria-label="Close search"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
+    <div class="search-results" id="searchResults" aria-live="polite"></div>
+  </div>
+</nav>
+<nav class="outsider site-account-trigger"><div class="outside"><a id="accountToggle" href="{{ url_for('account_page') }}" aria-label="Account"><i class="fa-regular fa-user"></i></a></div></nav>
+
+<main class="wishlist-page">
+    <input class="recipe-search-input" type="search" hidden aria-hidden="true"><button class="recipe-search-button" type="button" hidden aria-hidden="true">Search</button><div class="recipe-search-results" hidden></div>
+    <header class="wishlist-heading"><h1>Your Wishlist</h1><p>All the recipes you saved, in the same recipe cards you know from Discover.</p></header>
+    <div id="wishlistGrid" class="wishlist-grid" aria-live="polite"></div>
+  </main>
+  <div class="fridget-credits">Created with care by the Fridget team · Kris · SlacktivistHustler · EiNandar · Shun Lei</div>
+  <div class="recipe-detail-modal">
+    <div class="recipe-detail-card"><button type="button" class="recipe-close-button" aria-label="Close">&times;</button><img class="recipe-detail-image" src="" alt="Recipe"><h2 class="recipe-detail-title">Recipe Name</h2><p class="recipe-detail-time"></p><h3>Ingredients</h3><ul class="recipe-detail-ingredients"></ul><h3>Cooking Instructions</h3><ol class="recipe-detail-instructions"></ol><h3>Cooking Tips</h3><p class="recipe-detail-tips"></p><a class="recipe-detail-video" href="#" target="_blank" rel="noopener noreferrer">Watch Tutorial</a></div>
+  </div>
+
+<!-- Fridget AI assistant -->
+<div class="ai-button" role="button" tabindex="0" aria-label="Open Fridget AI assistant"><i class="fa-brands fa-openai fa-spin"></i></div>
+<div class="chat-box" role="dialog" aria-label="Fridget AI assistant">
+  <div class="chat-header">Fridget <span class="close-btn" role="button" tabindex="0" aria-label="Close chat">✖</span></div>
+  <div class="chat-body"><div class="message ai">Greeting, I'm Fridget.</div></div>
+  <div class="chat-input"><input type="text" placeholder="Type a message..." id="userInput" aria-label="Message"><button id="sendBtn" type="button">Send</button></div>
+</div>
+
+  <script src="{{ url_for('recipes.static', filename='recipes.js') }}"></script>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <script>
+    (function(){
+      const grid=document.getElementById('wishlistGrid'), key='fridget-wishlist';
+      const read=()=>{try{return JSON.parse(localStorage.getItem(key)||'[]')}catch(_){return []}};
+      const render=()=>{
+        const saved=read(); grid.innerHTML='';
+        if(!saved.length){const empty=document.createElement('div');empty.className='wishlist-empty';empty.textContent='Your wishlist is empty. Visit Discover and save a recipe to see it here.';grid.append(empty);return;}
+        saved.forEach(item=>{
+          const name=typeof item==='string'?item:(item.name||'');
+          const recipe=(typeof Recipes !== "undefined" ? Recipes : []).find(r=>r.name.toLowerCase()===name.toLowerCase());
+          if(!recipe)return;
+          const card=document.createElement('article');card.className='recipe-card';
+          const img=document.createElement('img');img.className='recipe-image';img.src=(typeof item==='object'&&item.image)||recipe.imgSrc;img.alt=recipe.imgAlt||recipe.name;img.loading='lazy';
+          const title=document.createElement('h3');title.textContent=recipe.name;
+          const meta=document.createElement('p');meta.textContent=recipe.time||'Recipe';
+          const view=document.createElement('button');view.type='button';view.className='recipe-card-button';view.textContent='View recipe';
+          const remove=document.createElement('button');remove.type='button';remove.className='wishlist-remove';remove.textContent='Remove from wishlist';
+          remove.addEventListener('click',()=>{const next=read().filter(x=>(typeof x==='string'?x:x.name||'').toLowerCase()!==recipe.name.toLowerCase());localStorage.setItem(key,JSON.stringify(next));render();});
+          card.append(img,title,meta,view,remove);grid.append(card);
+        });
+        if(!grid.children.length){const empty=document.createElement('div');empty.className='wishlist-empty';empty.textContent='Those saved recipes are no longer available. Browse Discover to add recipes again.';grid.append(empty);}
+      };
+      document.addEventListener('DOMContentLoaded',render);render();
+      window.addEventListener('storage',render);
+    })();
+  </script>
+
+
+<div class="auth-backdrop" id="authBackdrop" hidden></div>
+<section class="auth-dialog" id="authDialog" role="dialog" aria-modal="true" aria-labelledby="authTitle" hidden>
+  <button class="auth-close" id="authClose" type="button" aria-label="Close account dialog"><i class="fa-solid fa-xmark"></i></button>
+  <div class="auth-brand">Fridget</div><h2 id="authTitle">Welcome back</h2><p class="auth-subtitle" id="authSubtitle">Sign in to your account.</p>
+  <div class="auth-tabs" id="authTabs"><button type="button" class="active" data-auth-view="login">Log in</button><button type="button" data-auth-view="register">Create account</button></div>
+  <form id="authForm" novalidate>
+    <label class="auth-field" id="nameField" hidden>Display name<input id="authName" name="name" type="text" maxlength="60" autocomplete="name"></label>
+    <label class="auth-field" id="usernameField" hidden>Username <span class="username-hint">(lowercase letters, numbers, ., _, -)</span><input id="authUsername" name="username" type="text" minlength="3" maxlength="30" pattern="[a-z0-9._-]{3,30}" autocomplete="username" autocapitalize="none" spellcheck="false"></label>
+    <label class="auth-field">Email or username<input id="authIdentity" name="identity" type="text" maxlength="120" autocomplete="username" required></label>
+    <label class="auth-field">Password<input id="authPassword" name="password" type="password" minlength="8" maxlength="128" autocomplete="current-password" required></label>
+    <label class="auth-field" id="confirmField" hidden>Confirm password<input id="authConfirm" name="confirm_password" type="password" minlength="8" maxlength="128" autocomplete="new-password"></label>
+    <p class="auth-message" id="authMessage" role="status" aria-live="polite"></p><button class="auth-submit" id="authSubmit" type="submit">Log in</button>
+  </form>
+            <button class="auth-forgot-link" id="forgotPasswordLink" type="button">Forgot password?</button>
+
+        <form id="emailVerifyForm" hidden novalidate>
+                <label class="auth-field">Email verification code<input id="emailVerifyCode" name="code" type="text" inputmode="numeric" pattern="[0-9]{6}" minlength="6" maxlength="6" autocomplete="one-time-code" required></label>
+                <p class="auth-message" id="emailVerifyMessage" role="status" aria-live="polite"></p>
+                <button class="auth-submit" type="submit">Verify email</button>
+            </form>
+            <form id="passwordResetForm" hidden novalidate>
+                <label class="auth-field">Reset code<input id="passwordResetCode" name="code" type="text" inputmode="numeric" pattern="[0-9]{6}" minlength="6" maxlength="6" autocomplete="one-time-code" required></label>
+                <label class="auth-field">New password<input id="passwordResetNew" name="password" type="password" minlength="8" maxlength="128" autocomplete="new-password" required></label>
+                <label class="auth-field">Confirm new password<input id="passwordResetConfirm" name="confirm_password" type="password" minlength="8" maxlength="128" autocomplete="new-password" required></label>
+                <p class="auth-message" id="passwordResetMessage" role="status" aria-live="polite"></p>
+                <button class="auth-submit" type="submit">Reset password</button>
+            </form>
+            <div class="auth-user" id="authUser" hidden><p id="authUserText"></p><button class="auth-submit" id="authLogout" type="button">Log out</button></div>
+</section>
+</body>
+</html>

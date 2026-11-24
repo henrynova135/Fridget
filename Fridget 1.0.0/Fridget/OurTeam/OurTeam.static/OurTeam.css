@@ -1,0 +1,830 @@
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
+
+/* ========================================
+   1. GLOBAL SETTINGS & THEME
+======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+
+    -webkit-user-select: none;
+    }
+
+
+:root {
+    --page-bg: #fffaf3;
+    --text-color: #292524;
+    --muted-text: #78716c;
+
+    --glass-bg: rgba(255, 255, 255, 0.62);
+    --glass-hover: rgba(255, 255, 255, 0.88);
+    --border-color: rgba(255, 255, 255, 0.85);
+
+    --accent: #dc4935;
+    --accent-secondary: #f28c38;
+    --accent-soft: rgba(220, 73, 53, 0.12);
+
+    --image-border: #fffaf3;
+
+    --modal-bg: #fffaf3;
+    --modal-panel: #fff1e5;
+    --modal-text: #292524;
+
+    --shadow: 0 15px 40px rgba(90, 50, 30, 0.10);
+    --modal-shadow: 0 25px 80px rgba(0, 0, 0, 0.22);
+}
+
+body.dark-mode {
+    --page-bg: #1c1917;
+    --text-color: #fafaf9;
+    --muted-text: #a8a29e;
+
+    --glass-bg: rgba(41, 37, 36, 0.78);
+    --glass-hover: rgba(68, 55, 48, 0.88);
+    --border-color: rgba(255, 255, 255, 0.10);
+
+    --accent: #ff765e;
+    --accent-secondary: #ffad62;
+    --accent-soft: rgba(255, 118, 94, 0.13);
+
+    --image-border: #292524;
+
+    --modal-bg: #292524;
+    --modal-panel: #352c28;
+    --modal-text: #fafaf9;
+
+    --shadow: 0 15px 40px rgba(0, 0, 0, 0.20);
+    --modal-shadow: 0 25px 80px rgba(0, 0, 0, 0.50);
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+
+    background: var(--page-bg);
+    color: var(--text-color);
+
+    font-family: "Poppins", sans-serif;
+
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease;
+}
+
+button,
+a {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button:focus-visible,
+a:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 4px;
+}
+
+
+/* ========================================
+   2. PAGE HEADING
+======================================== */
+
+.head {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+
+    text-align: center;
+    padding: 15.5rem 2rem 9.45rem;
+
+    position: relative;
+    z-index: 1;
+
+    transition: padding 0.3s ease;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.gradient-text {
+    display: inline-block;
+
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    font-weight: 800;
+    letter-spacing: -1.5px;
+
+    background: linear-gradient(
+        90deg,
+        var(--accent),
+        var(--accent-secondary)
+    );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards;
+}
+
+
+/* ========================================
+   3. BACKGROUND DECORATION
+======================================== */
+
+@keyframes float {
+    from {
+        transform: translateY(0) scale(1);
+    }
+
+    to {
+        transform: translateY(25px) scale(1.08);
+    }
+}
+
+.circle {
+    position: absolute;
+    z-index: 0;
+
+    border-radius: 50%;
+    filter: blur(90px);
+
+    opacity: 0.24;
+    pointer-events: none;
+
+    animation: float 12s ease-in-out infinite alternate;
+}
+
+.circle-1 {
+    top: 20%;
+    left: 5%;
+
+    width: 400px;
+    height: 400px;
+
+    background: radial-gradient(
+        circle,
+        #ff9a62,
+        #ffcf9e
+    );
+}
+
+.circle-2 {
+    right: 3%;
+    bottom: 5%;
+
+    width: 450px;
+    height: 450px;
+
+    background: radial-gradient(
+        circle,
+        #ffb36b,
+        #f7d9a9
+    );
+
+    animation-delay: -4s;
+}
+
+body.dark-mode .circle {
+    opacity: 0.12;
+}
+
+
+/* ========================================
+   4. TEAM GRID
+======================================== */
+
+.team-grid {
+    width: 100%;
+    max-width: 1400px;
+
+    margin: 0 auto;
+    padding: 0 1.5rem 6rem;
+
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 1.25rem;
+
+    position: relative;
+    z-index: 1;
+}
+
+@media (min-width: 600px) {
+    .team-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 2rem;
+        padding: 0 2rem 6rem;
+    }
+}
+
+@media (min-width: 900px) {
+    .team-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+
+/* ========================================
+   5. TEAM PROFILE CARDS
+======================================== */
+
+.glass-card {
+    min-width: 0;
+
+    padding: 1.5rem 1rem;
+    text-align: center;
+
+    background: var(--glass-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 22px;
+
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+
+    box-shadow: var(--shadow);
+
+    overflow: hidden;
+
+    opacity: 0;
+    transform: translateY(35px);
+
+    transition:
+        opacity 0.7s cubic-bezier(0.2, 0.9, 0.3, 1),
+        transform 0.7s cubic-bezier(0.2, 0.9, 0.3, 1),
+        background 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.glass-card.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.glass-card:hover {
+    transform: translateY(-6px);
+
+    background: var(--glass-hover);
+    border-color: rgba(220, 73, 53, 0.28);
+
+    box-shadow: 0 20px 45px rgba(120, 60, 35, 0.15);
+}
+
+body.dark-mode .glass-card:hover {
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.30);
+}
+
+
+/* ========================================
+   6. PROFILE IMAGES
+======================================== */
+
+.img-container {
+    width: min(140px, 25vw);
+    height: min(140px, 25vw);
+
+    margin: 0 auto 1rem;
+    padding: 4px;
+
+    position: relative;
+
+    border-radius: 50%;
+
+    background: linear-gradient(
+        135deg,
+        var(--accent),
+        var(--accent-secondary)
+    );
+
+    box-shadow: 0 5px 22px rgba(220, 73, 53, 0.20);
+
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
+}
+
+.img-container img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+    border: 3px solid var(--image-border);
+}
+
+.glass-card:hover .img-container {
+    transform: scale(1.06);
+
+    box-shadow: 0 8px 28px rgba(220, 73, 53, 0.28);
+}
+
+
+/* ========================================
+   7. PROFILE TEXT
+======================================== */
+
+.glass-card h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.2px;
+
+    color: var(--text-color);
+
+    overflow-wrap: anywhere;
+}
+
+.ykpt {
+    display: block;
+
+    font-size: 0.75rem;
+    font-weight: 600;
+
+    color: var(--accent);
+
+    letter-spacing: 0.8px;
+    margin-bottom: 0.75rem;
+}
+
+
+/* ========================================
+   8. SOCIAL LINKS
+======================================== */
+
+.socials {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 0.5rem;
+
+    opacity: 0.8;
+    transform: translateY(0);
+
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
+}
+
+.socials a {
+    width: 44px;
+    height: 44px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    transition:
+        background 0.3s ease,
+        transform 0.3s ease;
+}
+
+.socials a:hover {
+    background: var(--accent-soft);
+    transform: translateY(-3px);
+}
+
+.socials i {
+    color: var(--accent);
+    font-size: 1.2rem;
+
+    transition:
+        color 0.3s ease,
+        transform 0.3s ease;
+}
+
+.socials a:hover i {
+    color: var(--accent-secondary);
+    transform: scale(1.12);
+}
+
+
+/* ========================================
+   9. MODAL OVERLAY
+======================================== */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+    height: 100dvh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 1rem;
+
+    background: rgba(30, 20, 15, 0.48);
+
+    backdrop-filter: blur(0);
+    -webkit-backdrop-filter: blur(0);
+
+    z-index: 1000;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+        opacity 0.35s ease,
+        visibility 0.35s ease,
+        backdrop-filter 0.4s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    backdrop-filter: blur(9px);
+    -webkit-backdrop-filter: blur(9px);
+}
+
+
+/* ========================================
+   10. MODAL CARD
+======================================== */
+
+.modal-card {
+    width: 100%;
+    max-width: 750px;
+    max-height: calc(100dvh - 2rem);
+
+    display: flex;
+    flex-wrap: wrap;
+
+    position: relative;
+
+    background: var(--modal-bg);
+    color: var(--modal-text);
+
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    box-shadow: var(--modal-shadow);
+
+    opacity: 0;
+    transform: translateY(28px) scale(0.95);
+
+    transition:
+        opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-overlay.active .modal-card {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+
+/* ========================================
+   11. MODAL IMAGE SECTION
+======================================== */
+
+.modal-left {
+    flex: 1 1 200px;
+
+    padding: 2rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--modal-panel);
+}
+
+.modal-left img {
+    display: block;
+
+    width: 100%;
+    max-width: 240px;
+
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+
+    border-radius: 18px;
+
+    border: 3px solid var(--accent);
+}
+
+
+/* ========================================
+   12. MODAL INFORMATION
+======================================== */
+
+.modal-right {
+    flex: 2 1 300px;
+
+    min-width: 0;
+
+    padding: 2.5rem 2.5rem 2rem 2rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.modal-name {
+    font-size: 2rem;
+    font-weight: 700;
+
+    color: var(--text-color);
+
+    margin-bottom: 0.35rem;
+    overflow-wrap: anywhere;
+}
+
+.modal-rollno {
+    font-size: 0.95rem;
+    font-weight: 500;
+
+    color: var(--accent);
+
+    letter-spacing: 0.8px;
+    margin-bottom: 0.6rem;
+}
+
+.modal-position {
+    font-size: 1.15rem;
+    font-weight: 600;
+
+    color: var(--accent-secondary);
+
+    margin-bottom: 1.3rem;
+}
+
+.modal-contribution {
+    font-size: 0.95rem;
+    line-height: 1.7;
+
+    color: var(--muted-text);
+
+    padding: 0.8rem 0 0.8rem 1.1rem;
+
+    border-left: 3px solid var(--accent);
+
+    background: var(--accent-soft);
+
+    border-radius: 0 10px 10px 0;
+}
+
+
+/* ========================================
+   13. MODAL CLOSE BUTTON
+======================================== */
+
+.modal-close {
+    position: absolute;
+    top: 0.65rem;
+    right: 0.65rem;
+
+    z-index: 2;
+
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
+
+    display: grid;
+    place-items: center;
+
+    border: none;
+    border-radius: 50%;
+
+    background: var(--accent);
+    color: white;
+
+    font-family: Arial, sans-serif;
+    font-size: 27px;
+    font-weight: 400;
+    line-height: 1;
+    text-align: center;
+    box-sizing: border-box;
+
+    transition:
+        background 0.25s ease,
+        transform 0.25s ease;
+}
+
+.modal-close:hover {
+    background: var(--accent-secondary);
+    transform: rotate(90deg);
+}
+
+
+/* ========================================
+   14. TABLET ADJUSTMENTS
+======================================== */
+
+@media (min-width: 600px) {
+    .glass-card h3 {
+        font-size: 1.35rem;
+    }
+
+    .ykpt {
+        font-size: 0.82rem;
+    }
+}
+
+
+/* ========================================
+   15. DESKTOP ADJUSTMENTS
+======================================== */
+
+@media (min-width: 900px) {
+    .glass-card h3 {
+        font-size: 1.5rem;
+    }
+
+    .ykpt {
+        font-size: 0.88rem;
+    }
+}
+
+
+/* ========================================
+   16. MOBILE ADJUSTMENTS
+======================================== */
+
+@media (max-width: 600px) {
+    .head {
+        padding: 8.5rem 1.5rem 4.2rem;
+    }
+
+    .gradient-text {
+        font-size: clamp(2rem, 7vw, 3.5rem);
+    }
+
+    .team-grid {
+        padding: 0 1rem 4rem;
+        gap: 1rem;
+    }
+
+    .glass-card {
+        padding: 1rem 0.65rem;
+        border-radius: 17px;
+    }
+
+    .img-container {
+        width: min(100px, 20vw);
+        height: min(100px, 20vw);
+        margin-bottom: 0.75rem;
+    }
+
+    .glass-card h3 {
+        font-size: 0.95rem;
+        margin-bottom: 0.2rem;
+    }
+
+    .ykpt {
+        font-size: 0.65rem;
+        margin-bottom: 0.35rem;
+    }
+
+    .socials a {
+        width: 40px;
+        height: 40px;
+    }
+
+    .circle-1 {
+        width: 250px;
+        height: 250px;
+        top: 15%;
+        left: 0;
+    }
+
+    .circle-2 {
+        width: 280px;
+        height: 280px;
+        bottom: 5%;
+        right: 0;
+    }
+
+    /* Modal */
+
+    .modal-card {
+        width: 95%;
+        max-width: 420px;
+
+        flex-direction: column;
+
+        border-radius: 20px;
+    }
+
+    .modal-left {
+        padding: 2rem 1.5rem 1rem;
+    }
+
+    .modal-left img {
+        max-width: 145px;
+    }
+
+    .modal-right {
+        flex: auto;
+        padding: 1rem 1.5rem 1.5rem;
+        text-align: center;
+    }
+
+    .modal-name {
+        font-size: 1.4rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .modal-rollno {
+        font-size: 0.85rem;
+    }
+
+    .modal-position {
+        font-size: 1.05rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .modal-contribution {
+        font-size: 0.85rem;
+        text-align: left;
+        padding: 0.75rem 0.85rem;
+    }
+
+    .modal-close {
+        top: 0.5rem;
+        right: 0.5rem;
+    }
+}
+
+
+/* ========================================
+   17. VERY SMALL SCREENS
+======================================== */
+
+@media (max-width: 360px) {
+    .team-grid {
+        grid-template-columns: 1fr;
+        max-width: 300px;
+    }
+
+    .img-container {
+        width: 110px;
+        height: 110px;
+    }
+}
+
+
+/* ========================================
+   18. ACCESSIBILITY
+======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+
+/* Keep the modal close glyph optically centered in its circular button. */
+.modal-close{display:grid!important;place-items:center!important;padding:0!important;line-height:1!important;text-align:center!important;}
+.modal-close i{display:block!important;line-height:1!important;font-size:1.15rem!important;margin:0!important;transform:translateY(0)!important;}

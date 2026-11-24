@@ -1,0 +1,143 @@
+
+[
+    {
+        "id": 1,
+        "name": "Fried Rice",
+        "category": "Breakfast",
+        "ingredients": ["cooked rice", "egg", "carrot", "peas", "spring onion", "soy sauce", "garlic"],
+        "url": "recipe.html?id=1"
+    },
+    {
+        "id": 2,
+        "name": "Chicken Congee",
+        "category": "Breakfast",
+        "ingredients": ["rice", "chicken", "ginger", "garlic", "spring onion", "salt", "pepper"],
+        "url": "recipe.html?id=2"
+    },
+    {
+        "id": 3,
+        "name": "Fruits Yogurt Bowl",
+        "category": "Breakfast",
+        "ingredients": ["yogurt", "strawberries", "banana", "blueberries", "honey", "granola"],
+        "url": "recipe.html?id=3"
+    },
+    {
+        "id": 4,
+        "name": "Eggs and Toast",
+        "category": "Breakfast",
+        "ingredients": ["eggs", "bread", "butter", "salt", "black pepper"],
+        "url": "recipe.html?id=4"
+    },
+    {
+        "id": 5,
+        "name": "Fluffy Pumpkin Pancakes",
+        "category": "Breakfast",
+        "ingredients": ["pumpkin puree", "flour", "milk", "egg", "sugar", "baking powder", "butter", "cinnamon"],
+        "url": "recipe.html?id=5"
+    },
+    {
+        "id": 6,
+        "name": "Creamy Garlic Pasta",
+        "category": "Lunch",
+        "ingredients": ["pasta", "garlic", "cooking cream", "butter", "parmesan cheese", "salt", "black pepper"],
+        "url": "recipe.html?id=6"
+    },
+    {
+        "id": 7,
+        "name": "Grilled Chicken with Lemon",
+        "category": "Lunch",
+        "ingredients": ["chicken breast", "lemon", "garlic", "olive oil", "salt", "black pepper", "rosemary"],
+        "url": "recipe.html?id=7"
+    },
+    {
+        "id": 8,
+        "name": "Chicken Sandwich",
+        "category": "Lunch",
+        "ingredients": ["chicken breast", "bread", "lettuce", "tomato", "mayonnaise", "cheese", "black pepper"],
+        "url": "recipe.html?id=8"
+    },
+    {
+        "id": 9,
+        "name": "Sweet and Sour Chicken",
+        "category": "Lunch",
+        "ingredients": ["chicken", "pineapple", "bell pepper", "onion", "tomato sauce", "vinegar", "sugar", "soy sauce"],
+        "url": "recipe.html?id=9"
+    },
+    {
+        "id": 10,
+        "name": "Miso Soup",
+        "category": "Lunch",
+        "ingredients": ["miso paste", "tofu", "dried seaweed", "spring onion", "water", "dashi stock"],
+        "url": "recipe.html?id=10"
+    },
+    {
+        "id": 11,
+        "name": "Roasted Chicken Dinner",
+        "category": "Dinner",
+        "ingredients": ["whole chicken", "potatoes", "carrots", "garlic", "olive oil", "rosemary", "salt", "black pepper"],
+        "url": "recipe.html?id=11"
+    },
+    {
+        "id": 12,
+        "name": "Burmese Chicken Curry",
+        "category": "Dinner",
+        "ingredients": ["chicken", "onion", "garlic", "ginger", "tomato", "turmeric", "chili powder", "cooking oil", "coriander"],
+        "url": "recipe.html?id=12"
+    },
+    {
+        "id": 13,
+        "name": "Spaghetti Bolognese",
+        "category": "Dinner",
+        "ingredients": ["spaghetti", "ground beef", "tomatoes", "onion", "garlic", "tomato paste", "olive oil", "oregano"],
+        "url": "recipe.html?id=13"
+    },
+    {
+        "id": 14,
+        "name": "Beef Steak",
+        "category": "Dinner",
+        "ingredients": ["beef steak", "garlic", "butter", "olive oil", "salt", "black pepper", "rosemary"],
+        "url": "recipe.html?id=14"
+    },
+    {
+        "id": 15,
+        "name": "Mac and Cheese",
+        "category": "Dinner",
+        "ingredients": ["macaroni", "cheddar cheese", "milk", "butter", "flour", "salt", "black pepper"],
+        "url": "recipe.html?id=15"
+    },
+    {
+        "id": 16,
+        "name": "Coffee",
+        "category": "Desserts",
+        "ingredients": ["ground coffee", "water", "milk", "sugar"],
+        "url": "recipe.html?id=16"
+    },
+    {
+        "id": 17,
+        "name": "Matcha Latte",
+        "category": "Desserts",
+        "ingredients": ["matcha powder", "milk", "hot water", "sugar", "ice"],
+        "url": "recipe.html?id=17"
+    },
+    {
+        "id": 18,
+        "name": "Brownies",
+        "category": "Desserts",
+        "ingredients": ["dark chocolate", "butter", "flour", "sugar", "eggs", "cocoa powder", "vanilla extract"],
+        "url": "recipe.html?id=18"
+    },
+    {
+        "id": 19,
+        "name": "Cookies",
+        "category": "Desserts",
+        "ingredients": ["flour", "butter", "sugar", "brown sugar", "eggs", "chocolate chips", "vanilla extract", "baking soda"],
+        "url": "recipe.html?id=19"
+    },
+    {
+        "id": 20,
+        "name": "Pudding",
+        "category": "Desserts",
+        "ingredients": ["milk", "sugar", "cornstarch", "egg yolks", "vanilla extract", "butter"],
+        "url": "recipe.html?id=20"
+    }
+]

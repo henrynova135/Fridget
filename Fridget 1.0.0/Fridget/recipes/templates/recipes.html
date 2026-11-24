@@ -1,0 +1,433 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>(function(){try{var t=localStorage.getItem('fridget-theme')==='dark'?'dark':'light';document.documentElement.dataset.fridgetTheme=t;document.documentElement.style.backgroundColor=t==='dark'?'#1c1917':'#fffaf3';}catch(e){document.documentElement.dataset.fridgetTheme='light';}})();</script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $(function() {
+            const savedTheme = localStorage.getItem("fridget-theme");
+
+            $("body")
+                .removeClass("light-mode dark-mode")
+                .addClass(savedTheme === "dark" ? "dark-mode" : "light-mode");
+        });
+    </script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://kit.fontawesome.com/262e7279b4.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ url_for('recipes.static', filename='recipes.css') }}">
+
+    <title>Recipes</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='navigation.css') }}">
+</head>
+
+<body>
+<script>(function(){var dark=document.documentElement.dataset.fridgetTheme==='dark';document.body.classList.toggle('dark-mode',dark);document.body.classList.toggle('light-mode',!dark);})();</script>
+
+<main>
+
+    <!-- Main Navigation: UNCHANGED -->
+    
+<nav class="outsiders site-menu-trigger">
+  <div class="outside"><button id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="sideMenu"><i id="menuIcon" class="fa-solid fa-bars"></i></button></div>
+</nav>
+<div class="menu-overlay" id="menuOverlay"></div>
+<aside class="side-menu" id="sideMenu" aria-hidden="true">
+  <div class="side-menu-header"><h2>Fridget</h2><p>Your kitchen, your way.</p></div>
+  <nav class="side-menu-links" aria-label="Main menu">
+    <a href="{{ url_for('index') }}">Home</a>
+    <a href="{{ url_for('recipes.recipes') }}">Discover</a>
+    <a href="{{ url_for('wishlist_page') }}">Wishlist</a>
+    <div class="category-wrapper"><a href="#" id="categoryToggle" aria-expanded="false" aria-controls="categoryMenu">Categories <i class="fa-solid fa-chevron-down"></i></a>
+      <div class="category-menu" id="categoryMenu">
+        <a href="{{ url_for('recipes.recipes') }}?category=breakfast">Breakfast</a>
+        <a href="{{ url_for('recipes.recipes') }}?category=lunch">Lunch</a>
+        <a href="{{ url_for('recipes.recipes') }}?category=dinner">Dinner</a>
+        <a href="{{ url_for('recipes.recipes') }}?category=dessert">Dessert</a>
+      </div>
+    </div>
+    <a href="{{ url_for('account_page') }}">My Account</a>
+    <div class="settings-wrapper"><a href="#" id="settingsToggle" aria-expanded="false" aria-controls="settingsMenu">Settings</a>
+      <div class="settings-menu" id="settingsMenu"><h2 class="appearance">Appearance</h2><button class="light-mode" id="lightMode" type="button">Light Mode</button><button class="dark-mode" id="darkMode" type="button">Dark Mode</button></div>
+    </div>
+    <a href="{{ url_for('OurTeam.OurTeam') }}">About Us</a>
+  </nav>
+  <div class="side-menu-footer">Made with the power of Friendship.</div>
+</aside>
+<nav class="top site-main-nav">
+  <div class="logo"><div class="hedvig-letters-serif-regular">Fridget</div></div>
+  <div class="links"><a href="{{ url_for('index') }}">Home</a><a href="{{ url_for('recipes.recipes') }}">Recipes</a><a href="{{ url_for('OurTeam.OurTeam') }}">About Us</a></div>
+  <div class="actions"><button id="searchToggle" type="button" aria-label="Open Search" aria-expanded="false" aria-controls="searchPanel"><i class="fa-solid fa-magnifying-glass"></i></button></div>
+  <div class="search-panel" id="searchPanel">
+    <div class="search-input-row"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><input type="search" id="recipeSearch" placeholder="Search recipes..." autocomplete="off" aria-label="Search recipes" aria-controls="searchResults"><button id="closeSearch" type="button" aria-label="Close search"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
+    <div class="search-results" id="searchResults" aria-live="polite"></div>
+  </div>
+</nav>
+<nav class="outsider site-account-trigger"><div class="outside"><a id="accountToggle" href="{{ url_for('account_page') }}" aria-label="Account"><i class="fa-regular fa-user"></i></a></div></nav>
+
+        <div class="auth-backdrop" id="authBackdrop" hidden></div>
+
+    <section class="auth-dialog" id="authDialog" role="dialog" aria-modal="true" aria-labelledby="authTitle" hidden>
+        <button class="auth-close" id="authClose" type="button" aria-label="Close account dialog">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="auth-brand">Fridget</div>
+        <h2 id="authTitle">Welcome back</h2>
+        <p class="auth-subtitle" id="authSubtitle">Sign in to your account.</p>
+
+        <div class="auth-tabs" id="authTabs">
+            <button type="button" class="active" data-auth-view="login">Log in</button>
+            <button type="button" data-auth-view="register">Create account</button>
+        </div>
+
+        <form id="authForm" novalidate>
+            <label class="auth-field" id="nameField" hidden>
+                Display name
+                <input id="authName" name="name" type="text" maxlength="60" autocomplete="name">
+            </label>
+                <label class="auth-field" id="usernameField" hidden>Username <span class="username-hint">(lowercase letters, numbers, ., _, -)</span><input id="authUsername" name="username" type="text" minlength="3" maxlength="30" pattern="[a-z0-9._-]{3,30}" autocomplete="username" autocapitalize="none" spellcheck="false"></label>
+
+            <label class="auth-field">
+                Email or username
+                <input id="authIdentity" name="identity" type="text" maxlength="120" autocomplete="username" required>
+            </label>
+
+            <label class="auth-field">
+                Password
+                <input id="authPassword" name="password" type="password" minlength="8" maxlength="128" autocomplete="current-password" required>
+            </label>
+
+            <label class="auth-field" id="confirmField" hidden>
+                Confirm password
+                <input id="authConfirm" name="confirm_password" type="password" minlength="8" maxlength="128" autocomplete="new-password">
+            </label>
+
+            <p class="auth-message" id="authMessage" role="status" aria-live="polite"></p>
+            <button class="auth-submit" id="authSubmit" type="submit">Log in</button>
+        </form>
+
+        
+            <button class="auth-forgot-link" id="forgotPasswordLink" type="button">Forgot password?</button>
+
+        <form id="emailVerifyForm" hidden novalidate>
+                <label class="auth-field">Email verification code<input id="emailVerifyCode" name="code" type="text" inputmode="numeric" pattern="[0-9]{6}" minlength="6" maxlength="6" autocomplete="one-time-code" required></label>
+                <p class="auth-message" id="emailVerifyMessage" role="status" aria-live="polite"></p>
+                <button class="auth-submit" type="submit">Verify email</button>
+            </form>
+            <form id="passwordResetForm" hidden novalidate>
+                <label class="auth-field">Reset code<input id="passwordResetCode" name="code" type="text" inputmode="numeric" pattern="[0-9]{6}" minlength="6" maxlength="6" autocomplete="one-time-code" required></label>
+                <label class="auth-field">New password<input id="passwordResetNew" name="password" type="password" minlength="8" maxlength="128" autocomplete="new-password" required></label>
+                <label class="auth-field">Confirm new password<input id="passwordResetConfirm" name="confirm_password" type="password" minlength="8" maxlength="128" autocomplete="new-password" required></label>
+                <p class="auth-message" id="passwordResetMessage" role="status" aria-live="polite"></p>
+                <button class="auth-submit" type="submit">Reset password</button>
+            </form>
+            <div class="auth-user" id="authUser" hidden>
+            <p id="authUserText"></p>
+            <button class="auth-submit" id="authLogout" type="button">Log out</button>
+        </div>
+    </section>
+
+    <!-- AI Chat: UNCHANGED -->
+    <div class="ai-button">
+        <i class="fa-brands fa-openai"></i>
+    </div>
+
+    <div class="chat-box">
+        <div class="chat-header">
+            Fridget
+            <span class="close-btn">✖</span>
+        </div>
+
+        <div class="chat-body">
+            <div class="message ai">Greeting, I'm Friget</div>
+        </div>
+
+        <div class="chat-input">
+            <input type="text" placeholder="Type a message..." id="userInput">
+            <button id="sendBtn">Send</button>
+        </div>
+    </div>
+
+</main>
+
+<!-- ========================================
+     RECIPE PAGE CONTENT
+     Renamed classes only
+======================================== -->
+
+<div class="recipe-page">
+
+    <div class="recipe-heading">
+        <hr>
+        <h2>Quick & Easy Recipes</h2>
+        <hr>
+    </div>
+
+    <div class="recipe-search-container">
+        <input type="search" class="recipe-search-input" placeholder="Search for a recipe..">
+        <button type="button" class="recipe-search-button">search</button>
+    </div>
+
+    <div class="recipe-search-results"></div>
+
+    <!-- BREAKFAST -->
+    <div class="recipe-section-title">
+        <h3>Best choices for Breakfasts</h3>
+    </div>
+
+    <div class="breakfast-container">
+
+        <div class="b1 recipe-card">
+            <img src="https://twokooksinthekitchen.com/wp-content/uploads/2022/07/Chinese-egg-fried-rice.jpg"
+                class="recipe-image" alt="fried rice">
+            <h3>fried rice</h3>
+            <p>20 minutes. (Easy)</p>
+            <button type="button" class="recipe-card-button">View receipe</button>
+        </div>
+
+        <div class="b2 recipe-card">
+            <img src="https://assets.epicurious.com/photos/6172bc98b0562e91c3d7d3a2/1:1/w_1920,c_limit/BonesInCongee_RECIPE_102121_22909.jpg"
+                class="recipe-image" alt="Chicken Congee">
+            <h3>Chicken Congee</h3>
+            <p>60 minutes. (Easy)</p>
+            <button type="button" class="recipe-card-button">View receipe</button>
+        </div>
+
+        <div class="b3 recipe-card">
+            <img src="https://assets.epicurious.com/photos/552c1d0720ca5d650ed23b4b/1:1/w_768,c_limit/56389458_avocado-yogurt-soup_6x4.jpg"
+                class="recipe-image" alt="Fruits yogurt Bowl">
+            <h3>Fruits yogurt Bowl</h3>
+            <p>5 minutes. (Very Easy)</p>
+            <button type="button" class="recipe-card-button">View receipe</button>
+        </div>
+
+        <div class="b4 recipe-card">
+            <img src="https://assets.epicurious.com/photos/55ad19f02165ea17798702d0/1:1/w_1920,c_limit/EP_15072015_TOMATOTOAST_019.jpg"
+                class="recipe-image" alt="Eggs and Toast">
+            <h3>Eggs and Toast</h3>
+            <p>10 minutes. (Easy)</p>
+            <button type="button" class="recipe-card-button">View receipe</button>
+        </div>
+
+        <div class="b5 recipe-card">
+            <img src="https://assets.epicurious.com/photos/6364cca319db404ebecc095a/1:1/w_1920,c_limit/Pumpkin-Pancakes.jpg"
+                class="recipe-image" alt="Fluffy Pumpkin Pancakes">
+            <h3>Fluffy Pumpkin Pancakes</h3>
+            <p>20 minutes. (Easy)</p>
+            <button type="button" class="recipe-card-button">View receipe</button>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <!-- LUNCH -->
+    <div class="recipe-section-title">
+        <h3>Best choices for Lunch</h3>
+    </div>
+
+    <div class="lunch-container">
+
+        <div class="l1 recipe-card">
+            <img src="https://assets.epicurious.com/photos/5d780d0823467f00090b88ad/1:1/w_1920,c_limit/Creamy-Pasta-Crispy-Mushroom-recipe-BA-091019.jpg"
+                class="recipe-image" alt="Garlic Pasta">
+            <h3>Creamy garlic Pasta</h3>
+            <p>25 minutes. (Easy)</p>
+            <button type="button" class="recipe-card-button">View receipe</button>
+        </div>
+
+        <div class="l2 recipe-card">
+            <img src="https://assets.epicurious.com/photos/5d1121c4ed11c17924c217b8/1:1/w_1920,c_limit/grilled-chicken-with-lemon-and-thyme-recipe-BA-060619.jpg"
+                class="recipe-image" alt="Grilled Chicken with Lemon">
+            <h3>Grilled Chicken with Lemon</h3>
+            <p>30 minutes. (Medium)</p>
+            <button type="button" class="recipe-card-button">View receipe</button>
+        </div>
+
+        <div class="l3 recipe-card">
+            <img src="https://assets.epicurious.com/photos/63e4ba1b55007bc33c26b9c1/1:1/w_1920,c_limit/ba-grilled-chicken-sando.jpg"
+                class="recipe-image" alt="Chicken Sandwich">
+            <h3>Chicken Sandwich</h3>
+            <p>15 minutes with cooked chicken. (Easy)</p>
+            <button type="button" class="recipe-card-button">View receipe</button>
+        </div>
+
+        <div class="l4 recipe-card">
+            <img src="https://assets.epicurious.com/photos/5995cb92b704ba5be91609a7/16:9/w_1920,c_limit/_22-Minute-Sweet-and-Sour-Chicken-hero-14082017.jpg"
+                class="recipe-image" alt="Sweet and Sour Chicken">
+            <h3>Sweet and Sour Chicken</h3>
+            <p>35-45 minutes. (Medium)</p>
+            <button type="button" class="recipe-card-button">View receipe</button>
+        </div>
+
+        <div class="l5 recipe-card">
+            <img src="https://assets.epicurious.com/photos/640af1e0d4ec5fd7f485c23a/1:1/w_1920,c_limit/classic-miso-soup.jpg"
+                class="recipe-image" alt="Miso Soup">
+            <h3>Miso Soup</h3>
+            <p>15 minutes. (Easy)</p>
+            <button type="button" class="recipe-card-button">View receipe</button>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <!-- DINNER -->
+    <div class="recipe-section-title">
+        <h3>Best choices for Dinner</h3>
+    </div>
+
+    <div class="dinner-container">
+
+        <div class="d1 recipe-card">
+            <img src="https://assets.epicurious.com/photos/679a4278c48dd37b72dbce47/1:1/w_1920,c_limit/0325-BIG-BATCH-ENTERTAINING-FINAL-1627.jpg"
+                class="recipe-image" alt="Roasted Chicken Dinner">
+            <h3>Roasted Chicken Dinner</h3>
+            <p>75-100 minutes. (Medium)</p>
+            <button type="button" class="recipe-card-button">View receipe</button>
+        </div>
+
+        <div class="d2 recipe-card">
+            <img src="https://tse4.mm.bing.net/th/id/OIP.n3PzTE65Xxlw3tHpTsYdMQHaHa?r=0&w=735&h=736&rs=1&pid=ImgDetMain&o=7&rm=3"
+                class="recipe-image" alt="Burmese Chicken Curry">
+            <h3>Burmese Chicken Curry</h3>
+            <p>45-60 minutes. (Medium)</p>
+            <button type="button" class="recipe-card-button">View receipe</button>
+        </div>
+
+        <div class="d3 recipe-card">
+            <img src="https://assets.epicurious.com/photos/63f4d1acf35c679dff83d5c9/1:1/w_1920,c_limit/HLY_Bolog_Horizontal.jpg"
+                class="recipe-image" alt="Spaghetti Bolognese">
+            <h3>Spaghetti Bolognese</h3>
+            <p>40-50 minutes. (Easy-Medium)</p>
+            <button type="button" class="recipe-card-button">View receipe</button>
+        </div>
+
+        <div class="d4 recipe-card">
+            <img src="https://assets.epicurious.com/photos/56702e32864271d93196397f/1:1/w_1920,c_limit/hanger-2.jpg"
+                class="recipe-image" alt="Beef Steak">
+            <h3>Beef Steak</h3>
+            <p>20-30 minutes. (Medium)</p>
+            <button type="button" class="recipe-card-button">View receipe</button>
+        </div>
+
+        <div class="d5 recipe-card">
+            <img src="https://assets.epicurious.com/photos/5a13316e26986b7d9f9b0070/1:1/w_1920,c_limit/Back-of-the-box-MACARONI-and-CHEESE-FOR-A-CROWD-15112017.jpg"
+                class="recipe-image" alt="Mac and Cheese">
+            <h3>Mac and Cheese</h3>
+            <p>30-40 minutes. (Easy-Medium)</p>
+            <button type="button" class="recipe-card-button">View receipe</button>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <!-- DESSERTS -->
+    <div class="recipe-section-title">
+        <h3>Best choices for Deserts</h3>
+    </div>
+
+    <div class="dessert-container">
+
+        <div class="s1 recipe-card">
+            <img src="https://img.magnific.com/premium-photo/cup-coffee_1014817-82.jpg"
+                class="recipe-image" alt="Coffee">
+            <h3>coffee</h3>
+            <p>5-10 minutes (Easy)</p>
+            <button type="button" class="recipe-card-button">View recipe</button>
+        </div>
+
+        <div class="s2 recipe-card">
+            <img src="https://ts1.mm.bing.net/th?id=OIP.sUmwstpi-mCpgBfICpgzEAHaHa&pid=15.1"
+                class="recipe-image" alt="Matcha Latte">
+            <h3>Matcha Latte</h3>
+            <p>5-10 minutes (Easy)</p>
+            <button type="button" class="recipe-card-button">View recipe</button>
+        </div>
+
+        <div class="s3 recipe-card">
+            <img src="https://assets.epicurious.com/photos/5fca950999e408725afcb3e4/1:1/w_1920,c_limit/Brownies_3_VOG_final.jpg"
+                class="recipe-image" alt="Brownies">
+            <h3>Brownies</h3>
+            <p>35-45 minutes (Easy-Medium)</p>
+            <button type="button" class="recipe-card-button">View recipe</button>
+        </div>
+
+        <div class="s4 recipe-card">
+            <img src="https://assets.epicurious.com/photos/6377cc9aa4553e333b2e0ddf/1:1/w_1920,c_limit/1115-epi-molasses-cookies-lede.jpg"
+                class="recipe-image" alt="Cookies">
+            <h3>Cookies</h3>
+            <p>25-35 minutes (Easy)</p>
+            <button type="button" class="recipe-card-button">View recipe</button>
+        </div>
+
+        <div class="s5 recipe-card">
+            <img src="https://images.mrcook.app/recipe-image/01949e7b-ded4-77dd-94f3-bf3234bee5f1?cacheKey=U2F0LCAyNSBKYW4gMjAyNSAxNzoyMTo0NyBHTVQ="
+                class="recipe-image" alt="Pudding">
+            <h3>Pudding</h3>
+            <p>20 min + chilling (Easy)</p>
+            <button type="button" class="recipe-card-button">View recipe</button>
+        </div>
+
+    </div>
+</div>
+
+<!-- Recipe Detail Popup -->
+<div class="recipe-detail-modal" aria-hidden="true">
+    <div class="recipe-detail-card" role="dialog" aria-modal="true" aria-label="Recipe details">
+        <button type="button" class="recipe-close-button" aria-label="Close recipe details">&times;</button>
+
+        <div class="recipe-detail-hero">
+            <img class="recipe-detail-image" src="" alt="Recipe">
+            <div class="recipe-detail-hero-shade" aria-hidden="true"></div>
+        </div>
+
+        <div class="recipe-detail-content">
+            <div class="recipe-detail-intro">
+                <span class="recipe-detail-eyebrow">FRIDGET RECIPE</span>
+                <h2 class="recipe-detail-title">Recipe Name</h2>
+                <p class="recipe-detail-time"></p>
+            </div>
+
+            <section class="recipe-detail-section recipe-ingredients-panel">
+                <div class="recipe-detail-section-heading"><h3>Ingredients</h3></div>
+                <ul class="recipe-detail-ingredients"></ul>
+            </section>
+
+            <section class="recipe-detail-section recipe-instructions-panel">
+                <div class="recipe-detail-section-heading"><h3>Cooking Instructions</h3></div>
+                <ol class="recipe-detail-instructions"></ol>
+            </section>
+
+            <section class="recipe-detail-tips-panel">
+                <div><h3>Cooking Tips</h3><p class="recipe-detail-tips"></p></div>
+            </section>
+
+            <a class="recipe-detail-video" href="#" target="_blank" rel="noopener noreferrer">
+                <span class="recipe-video-play" aria-hidden="true">▶</span>
+                <span><strong>Watch Tutorial</strong><small>See how it's made</small></span>
+                <span class="recipe-video-arrow" aria-hidden="true">↗</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('recipes.static', filename='recipes.js') }}"></script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+<footer class="special-thanks" aria-label="Special thanks">
+  <span>Special thanks to</span>
+  <strong>Ei Nandar</strong>
+</footer>
+<style>
+.special-thanks{width:100%;display:flex;flex-direction:column;align-items:center;gap:4px;padding:22px 16px 18px;margin-top:36px;text-align:center;color:var(--muted-text,#8a817a);font:13px/1.5 'Plus Jakarta Sans',Arial,sans-serif}
+.special-thanks strong{font-weight:600;color:var(--text-color,#4b4541)}
+</style>
+
+</body>
+</html>
