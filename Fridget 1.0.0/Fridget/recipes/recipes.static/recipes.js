@@ -121,7 +121,7 @@ if (searchResults && searchInput && searchBtn) document.addEventListener("click"
 const Recipes = [
     {
         name: "fried rice",
-        imgSrc: "https://i.pinimg.com/1200x/35/09/8e/35098e5c3c63746e6f43aee1042c1a2f.jpg",
+        imgSrc: "https://twokooksinthekitchen.com/wp-content/uploads/2022/07/Chinese-egg-fried-rice.jpg",
         imgAlt: "Chinese egg Fried Rice",
         time: "20 minutes | Easy",
         ingredients: [
@@ -524,7 +524,7 @@ const Recipes = [
     },
     {
         name: "Pudding",
-        imgSrc: "https://i.pinimg.com/736x/df/96/02/df96029191379d6eac85ef7f51db9bac.jpg",
+        imgSrc: "https://images.mrcook.app/recipe-image/01949e7b-ded4-77dd-94f3-bf3234bee5f1?cacheKey=U2F0LCAyNSBKYW4gMjAyNSAxNzoyMTo0NyBHTVQ=",
         imgAlt: "Pudding",
         time: "20 min + chilling | Easy",
         ingredients: [
