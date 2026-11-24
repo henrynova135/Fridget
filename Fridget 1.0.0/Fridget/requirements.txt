@@ -1,1 +1,4 @@
-python-dotenv>=1.0,<2.0\nFlask==3.0.3\nrequests==2.32.3\nemail-validator>=2.2,<3.0\n
+python-dotenv>=1.0,<2.0
+Flask==3.0.3
+requests==2.32.3
+email-validator>=2.2,<3.0
