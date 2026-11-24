@@ -762,3 +762,31 @@ body.dark-mode {
 .recipe-card-link{display:block;height:100%;color:inherit;text-decoration:none}
 .recipe-card-link:hover{color:inherit}
 .recipe-card-link:focus-visible{outline:3px solid var(--green);outline-offset:4px;border-radius:18px}
+.newsletter-embed {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.newsletter-embed iframe {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background: white;
+}
+
+@media (max-width: 600px) {
+    .newsletter-embed {
+        width: 100%;
+        padding: 0 12px;
+        box-sizing: border-box;
+    }
+
+    .newsletter-embed iframe {
+        width: 100%;
+        height: 320px;
+    }
+}
